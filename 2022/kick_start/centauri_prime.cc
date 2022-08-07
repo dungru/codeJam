@@ -3,6 +3,19 @@
 
 using namespace std;
 
+/*
+3
+Mollaristan
+Auritania
+Zizily
+
+Case #1: Mollaristan is ruled by Bob.
+Case #2: Auritania is ruled by Alice.
+Case #3: Zizily is ruled by nobody.
+
+*/
+
+
 string GetRuler(const string& kingdom) {
     // TODO: implement this method to determine the ruler name, given the kingdom.
     string ruler = "Bob";
