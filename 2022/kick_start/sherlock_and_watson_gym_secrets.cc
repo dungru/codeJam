@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <algorithm>
 using namespace std;
 using ll = long long;
 // https://blog.csdn.net/ywcpig/article/details/52757764
@@ -41,7 +42,7 @@ int CountNumberOfPairs(int a, int b, long long n, int k)
     long long cnt = n / k;
     long long om = n % k;
 
-    for (long long i = 1; i <= n; i++) {
+    for (long long i = 1; i <= min(n, (long long)k); i++) {
         long long tmp = fastExp(i, a, k);
         if (i <= om) {
             mymap[tmp] += (cnt + 1) % MOD;
@@ -51,7 +52,7 @@ int CountNumberOfPairs(int a, int b, long long n, int k)
         mymap[tmp] %= MOD;
     }
 
-    for (long long i = 1; i <= k; ++i) {
+    for (long long i = 1; i <= min(n, (long long)k); ++i) {
         long long tmp = (k - fastExp(i, b, k)) % k;
         if (i <= om) {
             if (fastExp(i, a, k) == tmp) {

@@ -27,32 +27,31 @@ struct Coordinate {
     };
 };
 
+unordered_map<char, vector<int> > dir;
+
 Coordinate EndPosition(int N, int R, int C, int Sr, int Sc, string instructions)
 {
-    Coordinate pos = Coordinate(Sr, Sc);
-    unordered_set<Coordinate, Coordinate::HashFunction> visited;
-    unordered_map<char, pair<int, int> > dir;
-    dir['N'] = make_pair(-1, 0);
-    dir['E'] = make_pair(0, 1);
-    dir['S'] = make_pair(1, 0);
-    dir['W'] = make_pair(0, -1);
-    int i = 0;
-    visited.insert(pos);
-    while (i < N) {
-        char c = instructions[i];
-        int x = pos.r + dir[c].first;
-        int y = pos.c + dir[c].second;
-        if (x <= 0 || x > R || y <= 0 || y > C)
+    Coordinate cur = Coordinate(Sr, Sc);
+    unordered_map <Coordinate, bool, Coordinate::HashFunction> visited;
+    dir['N'] = {-1, 0};
+    dir['E'] = {0, 1};
+    dir['S'] = {1, 0};
+    dir['W'] = {0, -1};
+
+    visited[cur] = true;
+    for(auto i : instructions) {
+        vector<int> delta = dir[i];
+        cur.r = cur.r + delta[0];
+        cur.c = cur.c + delta[1];
+        if (cur.r <= 0 || cur.r > R || cur.c <= 0 || cur.c > C)
             continue;
-        Coordinate newp = Coordinate(x, y);
-        // cout << newp.r <<"," << newp.c << endl;
-        if (!visited.count(newp)) {
-            i++;
-            visited.insert(newp);
+        while(visited[cur]) {
+            cur.r = cur.r + delta[0];
+            cur.c = cur.c + delta[1];
         }
-        pos = newp;
+        visited[cur] = true;
     }
-    return pos;
+    return cur;
 }
 
 int main()
